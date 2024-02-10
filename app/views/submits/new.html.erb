@@ -1,0 +1,299 @@
+<% total_answer = 0 %>
+<% counted_question = Hash.new(0) %>
+<% is_complete = true %>
+<% is_complete_blanks = true %>
+<% outer_solved = false %>
+<% question_score = 0%>
+<% truefalse_score = 0 %>
+<% blanks_score = 0%>
+<% total_answer_truefalse = 0 %>
+<% is_complete_truefalse = true %>
+<% outer_solved_truefalse = false %>
+<% blanks_obtained_score = 0%>
+<% truefalse_obtained_score = 0%>
+<% @test.questions.each do |question|%>
+  <% if question.marks && question.marks > 0 %>
+    <% question_score += question.marks%>
+  <% end %>
+<% end %>
+<% @test.blanks.each do |blank|%>
+  <% if blank.marks && blank.marks > 0 %>
+    <% blanks_score += blank.marks%>
+  <% end %>
+<% end %>
+<% @test.truefalse.each do |truefalse| %>
+  <% if truefalse.marks && truefalse.marks > 0 %>
+    <% truefalse_score += truefalse.marks %>
+  <% end %>
+<% end %>
+<% total_test_score = question_score + blanks_score + truefalse_score%>
+
+<% all_submits_of_user = Submit.where(test_id: @test.id , user_id: current_user.id)%>
+<% total_enteries_of_test = @test.questions.count+@test.blanks.count+@test.truefalse.count%>
+
+<div class="main_div_for_take_test_div_submit">
+  <div class="top_heading_for_current_question" style="display : flex; align-items : center; justify-content : center;">
+    Solve <%= @test.name %><span style="margin-left : 1rem; font-size : 1.2rem;">(<%= total_test_score%> Marks)</span>
+  </div>
+  <% if @test_all_enteries == @submits.count%>
+    <% result_extract = current_user.results.find_by(test_id: @test.id)%>
+    <% if result_extract.present? %>
+      <% if result_extract.status == true %>
+        <div style="margin : 0 4rem;">
+          <div class="alert alert-success" style="font-size : 1.2rem; font-weight : bold;">You have passed the test successfully.</div>
+        </div>
+      <%else%>
+        <div style="margin : 0 4rem;">
+          <div class="alert alert-danger" style="font-size : 1.2rem; font-weight : bold;">You have failed the test.</div>
+        </div>
+      <% end %>
+    <% else %>
+      <div style="margin : 0 4rem;">
+        <div class="alert alert-warning" style="font-size : 1.2rem; font-weight : bold;">Your Result is now under progress.</div>
+      </div>
+    <% end %>
+  <% end %>
+  <div class="heading_all_users_diaplay_for_assignment_section">
+    Questions <span style="margin-left : 1rem; font-size : 1.2rem;">(<%= question_score%> Marks)</span> 
+  </div>
+  <% if @questions.present? %>
+    <%= form_with(model: @submit, url: test_submits_path(@test)) do |form| %>
+      <% @questions.each do |question| %>
+        <% if question.correct_option.present? && question.marks.present? %>
+          <div class="single_question_main_div_submit">
+            <div>
+              <%= form.hidden_field :user_id, value: current_user.id %>
+              <p style="font-size: 1.2rem;"><strong>Question: <%= question.title %></strong><span style="margin-left : 1rem; font-size : 1rem;">(<%= question.marks%> Marks)</span></p>
+              
+              <% solved = @test.submits.any? { |submit| submit.question_id == question.id && submit.user_id == current_user.id } %>
+              
+              <% if solved %>
+                <% outer_solved = true %>
+                <% finded_option = {}%>
+                <div class="btn btn-secondary">Solved</div>
+                <% count = 0 %>
+                <% @submits.each do |check_submit| %>
+                  <% if check_submit.option_id == question.correct_option.chomp.to_i && check_submit.question_id == question.id %>
+                    <% count += question.marks unless counted_question[question.id] >= 1 %>
+                    <% counted_question[question.id] += 1 %>
+                  <% end %>
+                <% end %>
+                <%= "Your Score for this question is #{count}" %>
+                <div style="margin-top : .6rem;">
+                  <% finded_option = question.options.find_by(id: question.correct_option) %>
+                  <span style="font-weight : bold; color : green;">
+                    <%= "Correct Answer : #{finded_option.option_text}" if finded_option %>
+                  </span>
+                </div>
+                <div style="margin-top: .6rem;">
+                    <% finded_submit = @submits.find_by(question_id: question.id, user_id: current_user.id) %>
+                    <% finded_answer = finded_submit&.option_id %>
+                    <% your_answer_text = question.options.find_by(id: finded_answer) %>
+                    <% if finded_option&.id == finded_answer %>
+                    <span style="font-weight: bold; color: green;">
+                      <%= "Your Answer: #{your_answer_text&.option_text}" %>
+                    </span>
+                  <% else %>
+                    <span style="font-weight: bold; color: red;">
+                      <%= "Your Answer: #{your_answer_text&.option_text}" %>
+                    </span>
+                  <% end %>
+                </div>
+                <% total_answer += count %>
+              <% else %>
+                <% is_complete = false %>
+                  <% question.options.each do |option| %>
+                    <div>
+                      <%= form.radio_button :"answers[#{question.id}]", option.id, id: "question_#{question.id}_option_#{option.id}", required: :true %>
+                      <%= label_tag "question_#{question.id}_option_#{option.id}", option.option_text %>
+                    </div>
+                  <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if is_complete %>
+        <% if outer_solved %>
+          <div class="total_score alert alert-success" style="margin : 0 4rem;font-size : 1.3rem; font-weight : bold;">
+            <%= "Total Score: #{total_answer} / #{question_score}" %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="submit_button_and_message">
+          <%= form.submit "Submit All Answers", style: "position: relative; left: 100%; transform: translate(-145%); margin-right: 2rem;", class: "btn btn-success" %>
+          <div class="submit_message alert alert-danger" style="margin : 0 4rem;font-size : 1.3rem; font-weight : bold; margin-top : 1rem;">
+            Please submit all answers!
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="no_user_added_yet">
+      No Questions Yet!
+    </div>    
+  <% end %>
+
+  <%# Blanks section %>
+  <%# Blanks section %>
+<div class="heading_all_users_diaplay_for_assignment_section">
+  Fill in the Blanks <span style="margin-left: 1rem; font-size: 1.2rem;">(<%= blanks_score %> Marks)</span>
+</div>
+
+<% if @blanks.present? %>
+  <%= form_with(model: @submit, url: test_submits_path(@test)) do |form| %>
+    <% @blanks.each do |blank| %>
+      <% solved_blanks = @test.submits.any? { |submit| submit.blank_id == blank.id && submit.user_id == current_user.id } %>
+      <% submitted_blank = @test.submits.find_by(blank_id: blank.id, user_id: current_user.id, test_id: @test.id) %>
+      <% if blank.correct_blank.present? && blank.marks.present? %>
+        <div class="single_question_main_div_submit">
+          <div>
+            <%= form.hidden_field :user_id, value: current_user.id %>
+            <p style="font-size: 1.2rem;">
+              <strong class="changes_text_into_the_field_div_for_blank">
+                <% if solved_blanks %>
+                  <% if submitted_blank.entered_blank.downcase == blank.correct_blank.downcase%>
+                    <%= raw("Blank: #{blank.blank.gsub('__blank__', form.button(submitted_blank.entered_blank, type: 'button', class: 'btn btn-success'))}") %>
+                  <% else %>
+                    <%= raw("Blank: #{blank.blank.gsub('__blank__', form.button(submitted_blank.entered_blank, type: 'button', class: 'btn btn-danger'))}") %>
+                  <% end %>
+                <% else %>
+                  <%= is_complete_blanks = false%>
+                  <%= raw("Blank: #{blank.blank.gsub('__blank__', form.text_field(:"blanks[#{blank.id}]", value: @submit&.blank&.entered_blank , required: true))}") %>
+                <% end %>
+              </strong>
+              <span style="margin-left: 1rem; font-size: 1rem;">(<%= blank.marks %> Marks)</span>
+            </p>
+          </div>
+          <% if solved_blanks %>
+            <div class="solved_status_for_the_blank">
+              <button class="btn btn-secondary">Solved</button>
+              <% if blank.correct_blank.downcase == submitted_blank.entered_blank.downcase %>
+                <span>Your score for this blank is <strong><%= blank.marks%></strong></span>
+                <% blanks_obtained_score += blank.marks%>
+              <% else %>
+                <span>Your score for this blank is <strong>0</strong></span>
+              <% end %>
+            </div>
+            <div style="margin-top : .6rem;">
+              <span style="font-weight : bold; color : green;">
+                <%= "Correct Answer : #{blank.correct_blank}"%>
+              </span>
+            </div>
+            <div style="margin-top: .6rem;">
+              <% if blank.correct_blank.downcase == submitted_blank.entered_blank.downcase %>
+                <span style="font-weight: bold; color: green;">
+                  <%= "Your Answer: #{submitted_blank&.entered_blank}" %>
+                </span>
+              <% else %>
+                <span style="font-weight: bold; color: red;">
+                  <%= "Your Answer: #{submitted_blank&.entered_blank}" %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+    <% if is_complete_blanks %>
+      <div class="total_score alert alert-success" style="margin : 0 4rem;font-size : 1.3rem; font-weight : bold;">
+        <%= "Total Score: #{blanks_obtained_score} / #{blanks_score}" %>
+      </div>
+    <% else %>
+      <div class="submit_button_and_message">
+        <%= form.submit "Submit All Answers", style: "position: relative; left: 100%; transform: translate(-145%); margin-right: 2rem;", class: "btn btn-success" %>
+        <div class="submit_message alert alert-danger" style="margin : 0 4rem;font-size : 1.3rem; font-weight : bold; margin-top : 1rem;">
+          Please fill all the Blanks!
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="heading_all_users_diaplay_for_assignment_section">
+  True/False <span style="margin-left: 1rem; font-size: 1.2rem;">(<%= truefalse_score %> Marks)</span>
+</div>
+
+<% if @test.truefalse.present? %>
+  <%= form_with(model: @submit, url: test_submits_path(@test)) do |form| %>
+    <% @test.truefalse.each do |truefalse| %>
+      <% if truefalse.marks.present? %>
+        <div class="single_question_main_div_submit">
+          <div>
+            <%= form.hidden_field :user_id, value: current_user.id %>
+            <p style="font-size: 1.2rem;">
+              <strong>Statement: <%= truefalse.statement %></strong>
+              <span style="margin-left: 1rem; font-size: 1rem;">(<%= truefalse.marks %> Marks)</span>
+            </p>
+
+            <% solved_truefalse = @test.submits.any? do |submit|
+              submit.truefalse_id == truefalse.id && submit.user_id == current_user.id
+            end %>
+
+            <% if solved_truefalse %>
+              <% finded_submit_truefalse = @submits.find_by(truefalse_id: truefalse.id, user_id: current_user.id) %>
+              <% is_truefalse_correct = finded_submit_truefalse&.entered_state == truefalse.state %>
+              <% outer_solved_truefalse = true %>
+
+              <div class="btn btn-secondary">Solved</div>
+              <% if truefalse.state == finded_submit_truefalse.entered_state %>
+                <span>Your score for this blank is <strong><%= truefalse.marks%></strong></span>
+                <% truefalse_obtained_score += truefalse.marks%>
+              <% else %>
+                <span>Your score for this blank is <strong>0</strong></span>
+              <% end %>
+
+              <div style="margin-top : .6rem;">
+                <span style="font-weight : bold; color : green;">
+                  <%= "Correct Answer : #{truefalse.state}"%>
+                </span>
+              </div>
+              <div style="margin-top: .6rem;">
+                <span style="font-weight: bold; color: <%= is_truefalse_correct ? 'green' : 'red' %>;">
+                  <%= "Your Answer: #{finded_submit_truefalse&.entered_state}" %>
+                </span>
+              </div>
+              <% total_answer_truefalse += is_truefalse_correct ? truefalse.marks : 0 %>
+            <% else %>
+              <% is_complete_truefalse = false %>
+              <div>
+                <%= form.radio_button :"truefalses[#{truefalse.id}]", true, id: "truefalse_#{truefalse.id}_option_true", required: true %>
+                <%= label_tag "truefalse_#{truefalse.id}_option_true", "True" %>
+              </div>
+
+              <div>
+                <%= form.radio_button :"truefalses[#{truefalse.id}]", false, id: "truefalse_#{truefalse.id}_option_false", required: true %>
+                <%= label_tag "truefalse_#{truefalse.id}_option_false", "False" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if is_complete_truefalse %>
+      <% if outer_solved_truefalse %>
+        <div class="total_score alert alert-success" style="margin: 0 4rem; font-size: 1.3rem; font-weight: bold;">
+          <%= "Total Score: #{total_answer_truefalse} / #{truefalse_score}" %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="submit_button_and_message">
+        <%= form.submit "Submit All Answers", style: "position: relative; left: 100%; transform: translate(-145%); margin-right: 2rem;", class: "btn btn-success" %>
+        <div class="submit_message alert alert-danger" style="margin: 0 4rem; font-size: 1.3rem; font-weight: bold; margin-top: 1rem;">
+          Please submit all answers!
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="no_user_added_yet">
+    No True/False Questions Yet!
+  </div>
+<% end %>
+<div class="lower_socre_for_each_submtion_test">
+  <h2 style="text-align : center; margin-top : 1rem;">Total Marks</h2>
+  <% total_obtained_score = total_answer + blanks_obtained_score + truefalse_obtained_score%>
+  <button class="alert alert-info" style=" width :100%; font-size : 1.6rem;">Obtained Marks <strong><%= total_obtained_score%></strong> / <%= total_test_score%></button>
+</div>

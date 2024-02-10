@@ -1,0 +1,88 @@
+<% def process_blank_text(text, blank_value = "") %>
+  <%= raw(text.gsub(/__blank__/, text_field_tag('blank', blank_value, required: true))) %>
+<% end %>
+<% test_score = 0%>
+<% @test.blanks.each do |blank|%>
+  <% if blank.marks && blank.marks > 0 %>
+    <% test_score += blank.marks%>
+  <% end %>
+<% end %>
+<div class="main_page_index_for_blanks_div">
+  <div class="top_heading_for_current_question" style="display : flex; justify-content : space-between; align-items : center;">
+    <span style="display : flex; align-items :center;">
+      <%= link_to test_path(@test) ,style: " margin-right: 1rem; color : black; margin-top : -.4rem;" do%>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+        </svg>
+      <% end%>
+      <%= @test.name%>/Blanks<span style="margin-left : 1rem; font-size : 1.2rem;">(<%= test_score%> Marks)</span>
+    </span>
+  </div>
+  <div class="lower_div_for_form_and_display_blanks">
+    <div class="form_for_blank_creation_index_page_div">
+      <div class="create_a_blank_div_for_the_form_div">
+        Create new Blank
+      </div>
+      <div class="info_div_for_creation_of_the_blank alert alert-success">
+        Use double underscore and blank word (__blank__) to insert a checkmark for blank. Like <strong>2 + 2 = __blank__ ?</strong>
+      </div>
+      <%= form_with(model: [@test, Blank.new], url: test_blanks_path(@test)) do |form| %>
+        <div class="single_field_for_the_creation_of_blank">
+          <%= form.label :blank %>
+          <%= form.text_field :blank, required: true, placeholder: "Enter the text"%>
+        </div>
+        <div class="single_field_for_the_creation_of_blank">
+          <%= form.label :correct_blank %>
+          <%= form.text_field :correct_blank, required: true , placeholder: "Enter the correct answer"%>
+        </div>
+        <div class="single_field_for_the_creation_of_blank">
+          <%= form.label :marks %>
+          <%= form.number_field :marks, required: true, min: 1, placeholder: "Enter marks" %>
+        </div>
+        <div class="submit_button_for_form_submition_blank">
+          <%= form.submit "Create" , class: "btn btn-success"%>
+        </div>
+      <% end %>
+    </div>
+    <div class="display_for_all_blanks_index_page_div">
+      <div class="headig_for_all_blanks_div_main_page">
+        All Blanks
+      </div>
+      <div class="display_for_all_blanks_index_page_div_inner">
+        <% @blanks.each do |blank| %>
+          <div class="singel_display_for_single_blank_index">
+            <div class="single_entity_div_for_single_display">
+              <div class="dynamic_entity_for_single_entity_div">
+                <%= process_blank_text( blank.blank) %>
+              </div>
+            </div>
+            <div class="single_entity_div_for_single_display">
+              <div class="static_heading_for_single_entity_label_blank">
+                Answer
+              </div>
+              <div class="dynamic_entity_for_single_entity_div">
+                <%= blank.correct_blank %>
+              </div>
+            </div>
+            <div class="single_entity_div_for_single_display">
+              <div class="static_heading_for_single_entity_label_blank">
+                Marks
+              </div>
+              <div class="dynamic_entity_for_single_entity_div">
+                <%= blank.marks %>
+              </div>
+            </div>
+            <div class="single_entity_div_for_single_display">
+              <div class="dynamic_entity_for_single_entity_div">
+                <%= link_to "Delete", test_blank_path(@test, blank), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+              </div>
+              <div class="dynamic_entity_for_single_entity_div">
+                <%= link_to "Edit", edit_test_blank_path(@test, blank),  class: "btn btn-primary" , style: "margin-left: 1rem;" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<%= form_with(model: @test) do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :user_id, "Select User" %>
+    <%= form.collection_select :user_id, @users, :id, :name, prompt: "Select User" %>
+  </div>
+
+  <%= form.submit "update" %>
+<% end %>

@@ -1,0 +1,103 @@
+<% test_score = 0%>
+<% @test.questions.each do |question|%>
+  <% if question.marks && question.marks > 0 %>
+    <% test_score += question.marks%>
+  <% end %>
+<% end %>
+<% @test.blanks.each do |blank|%>
+  <% if blank.marks && blank.marks > 0 %>
+    <% test_score += blank.marks%>
+  <% end %>
+<% end %>
+<% @test.truefalse.each do |truefalse|%>
+  <% if truefalse.marks && truefalse.marks > 0 %>
+    <% test_score += truefalse.marks%>
+  <% end %>
+<% end %>
+<div class="single_test_all_question_div_main"> 
+  <div class="top_heading_for_current_question" style="display : flex; justify-content : space-between; align-items : center;">
+    <span style="display : flex; align-items :center;">
+      <%= link_to test_path(@test) ,style: " margin-right: 1rem; color : black; margin-top : -.4rem;" do%>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+        </svg>
+      <% end%>
+      <%= @test.name%>/Questions<span style="margin-left : 1rem; font-size : 1.2rem;">(<%= test_score%> Marks)</span>
+    </span>
+  </div>
+  <%= link_to new_test_question_path, class: "add_new_question_link_for_questions btn btn-success" do %>
+    <div class="icon_for_add_new_question_div">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0"/>
+      </svg>
+    </div>
+    <p>Add new Question</p>
+  <% end %>
+  <div class="lower_div_for_the_question_index_page">
+    <div class="all_question_map_div_for_index_question">
+      <% @questions.each_with_index do |question , index| %>
+        <div class="single_question_div_for_index_question">
+          <div class="title_of_single_question_div_for_question_index">
+            <div class="qustion_heading_for_the_index_question">
+              Question <%= index+1 %>: 
+            </div>
+            <div class="qustion_title_for_the_index_question">
+              <%= question.title %>
+            </div>
+          </div>
+          <% if question.options.present? %>
+            <div class="option_div_for_single_question_index_questions">
+              <% question.options.each do |option| %>
+                <div class="single_option_for_single_question_div_index">
+                  <div class="option_key_display_for_single_option">
+                    <%= "#{option.option_key} : " %>
+                  </div>
+                  <div class="option_text_display_for_single_option">
+                    <%= option.option_text %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="alert alert-danger">Add Options to the question to display it to the candidates.</p>
+          <% end %>
+          
+          <% if question.correct_option.present? %>
+          <div class="correct_option_div_for_question">
+            <div class="correct_option_heading_div">
+              Correct Answer : 
+            </div>
+            <div class="correct_answer_title_display_for_question">
+              <% @correct_option_with_id = Option.find_by(id: question.correct_option.chomp.to_i) %>
+              <% if @correct_option_with_id.present? %>
+                <%= @correct_option_with_id.option_key %><span style="margin-left: 1rem; font-size: 1.2rem; font-weight: bold;">(<%= @correct_option_with_id.option_text %>)</span>
+              <% else %>
+                <p class="alert alert-danger">Correct Answer not found for this question.</p>
+              <% end %>
+            </div>
+          </div>
+          <% else %>
+            <p class="alert alert-danger">Add the Correct Answer to the quesiton to display it to the candidate.</p>
+          <% end %>
+          <% if question.marks.present? %>
+          <div class="correct_option_div_for_question">
+            <div class="correct_option_heading_div">
+              Marks : 
+            </div>
+            <div class="correct_answer_title_display_for_question">
+              <%= question.marks %>
+            </div>
+          </div>
+          <% else %>
+            <p class="alert alert-danger">Add the Marks to the quesiton to display it to the candidate.</p>
+          <% end %>
+          <div class="link_for_action_of_question">
+            <%= link_to "Edit", edit_test_question_path(@test, question) , class: "btn btn-primary" %>
+            <%= link_to "Delete", test_question_path(@test, question) , data: {turbo_method: :delete , turbo_confirm: 'Are you sure?' } , class: "btn btn-danger" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    </div>
+  </div>
+</div>

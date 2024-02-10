@@ -1,0 +1,37 @@
+<%# css is same so classes names are same %>
+
+<div class="all_admins_div_unlock_screen">
+  <div class="top_all_admins_heading_div">
+    User
+  </div>
+  <div class="all_admins_map_div_unlock">
+    <% @normalUsers.each do |user|%>
+      <div class="single_admin_div_for_unlock_screen">
+        <div class="left_side_admin_image_div">
+          <%= image_tag(user.image , height: "50rem" , width: "50rem" )%>
+        </div>
+        <div class="right_side_info_div_admin">
+          <div class="right_side_info_div_name">
+            <%= user.name%>
+          </div>
+          <div class="right_side_info_div_username">
+            <%= user.username%>
+          </div>
+          <div class="actions_div_for_user">
+            <%= link_to student_path(user) do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+                <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+              </svg>
+            <% end %>
+            <%= link_to  student_path(user) , data: {turbo_method: :delete , turbo_confirm: "Are you Sure to delete #{user.name}"} do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16" style="color :#e12222;">
+                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+              </svg>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

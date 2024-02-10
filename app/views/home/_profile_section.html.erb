@@ -1,0 +1,48 @@
+<div class="unlock_screen_left_side_profile">
+    <div class="upper_image_div_for_user">
+        
+        <% if current_user.image.attached? %>
+            <%= image_tag(current_user.image)%>
+        <% else %>
+            <%= image_tag("user.png")%>
+        <% end %>
+        
+    </div>
+    <div class="single_div_for_user_entity">
+        <div class="label_for_user_unlock_screen">
+            Name : 
+        </div>
+        <div class="dynamic_entity_for_user_unlock">
+            <%= current_user.name%>
+        </div>
+    </div>
+    <div class="single_div_for_user_entity">
+        <div class="label_for_user_unlock_screen">
+            Username : 
+        </div>
+        <div class="dynamic_entity_for_user_unlock">
+            <%= current_user.username%>
+        </div>
+    </div>
+    <div class="single_div_for_user_entity">
+        <div class="label_for_user_unlock_screen">
+            Email : 
+        </div>
+        <div class="dynamic_entity_for_user_unlock">
+            <%= current_user.email%>
+        </div>
+    </div>
+    <div class="single_div_for_user_entity">
+        <div class="label_for_user_unlock_screen">
+            Role : 
+        </div>
+        <div class="dynamic_entity_for_user_unlock role_div_unlock_screen">
+            <%= current_user.role%>
+        </div>
+    </div>
+    <div class="single_div_for_user_entity">
+        <div class="dynamic_entity_for_user_unlock">
+            <%= link_to "Edit Profile" , edit_user_registration_path%>
+        </div>
+    </div>
+</div>

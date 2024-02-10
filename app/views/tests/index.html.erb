@@ -1,0 +1,31 @@
+<div class="outer_div_for_all_tests_session_div">
+  <div class="top_heading_for_current_question">
+    All Tests
+  </div>
+  <% if current_user.role == "super admin" || current_user.role == "admin" %>
+    <%= link_to "Click to Create New Test", new_test_path, class: "btn btn-success", style: "width: 100%; text-align: left; font-size: 1.4rem;" %>
+  <%end%>
+  <div class="all_tests_map_div_index">
+    <% if current_user.role == "super admin" || current_user.role == "admin" %>
+      <% if @tests.present? %>
+        <% @tests.each do |test| %>
+          <%= link_to test.name, test_path(test), class: "single_div_for_test_all_index" %>
+        <% end %>
+      <% else %>
+        <div style="font-size: 2rem; font-weight: bold; text-align: center; width: 95vw;">
+          No Tests Yet.
+        </div>
+      <% end %>
+    <% else %>
+      <% if @assignments.present? %>
+        <% @assignments.each do |assignment| %>
+          <%= link_to "Give #{assignment.test.name}", new_test_submit_path(assignment.test), class: "single_div_for_test_all_index" %>
+        <% end %>
+      <% else %>
+        <div style="font-size: 2rem; font-weight: bold; text-align: center; width: 95vw;">
+          No Tests Yet.
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

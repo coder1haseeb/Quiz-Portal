@@ -1,0 +1,136 @@
+<div class="link_for_back_button_test_edit" style="position : relative ; top : 3rem; left: 2rem;">
+  <%= link_to test_questions_path(@test) ,style: " margin-right: 1rem; color : black; margin-top : -.4rem;" do%>
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+    </svg>
+  <%end%>
+</div>
+<div class="outer_div_for_question_edit_path">
+  <div class="top_heading_for_edit_question">
+    Edit the Question
+  </div>
+  <div class="bottom_div_for_the_form_of_option_and_question">
+    <div class="left_side_form_for_the_question_div">
+      <div class="top_heading_for_left_side_form_for_the_question_div">
+        Question
+      </div>
+      <%= form_with(model: [@test, @question], url: test_question_path(@test, @question), method: :patch) do |f| %>
+        <div class="question_update_input_div_for_single">
+          <%= f.label :title %>
+          <%= f.text_field :title %>
+        </div>
+        <div class="question_update_input_div_for_single">
+          <%= f.label :marks %>
+          <%= f.number_field :marks, placeholder: "Enter marks for Question", min: 1 %>
+        </div>
+        <% if @question.options.count >= 2 %>
+          <% if !@question.correct_option.present? %>
+            <p class="alert alert-danger">Please Select Correct Option.</p>
+          <% end %>
+          <div class="choose_correct_option_from_user_div">
+            <%= f.label :correct_option %>
+            <%= f.collection_select :correct_option, @question.options, :id, :option_key , prompt: "Select an Correct Option"%>
+          </div>
+        <% else %>
+          <p class="alert alert-danger">Add Atleast 2 Options to Choose Correct Answer.</p>
+        <% end %>
+        <div>
+          <%= f.submit "Submit" , class: "btn btn-success" ,style:"position : relative; left : 50%; transform :translate(-50%); margin-top : 1rem;"%>
+        </div>
+      <% end %>
+    </div>
+    <div class="left_side_form_for_the_question_div">
+      <div class="top_heading_for_left_side_form_for_the_question_div">
+        Options
+      </div>
+      
+      <% if @question.options.count > 0 %>
+        <% @question.options.each do |option| %>
+          <div style="display: flex; justify-content: space-between; align-items : center; margin : .5rem 0;">
+            <div class="single_option_for_single_question_div_index">
+              <div class="option_key_display_for_single_option">
+                <%= "#{option.option_key} : " %>
+              </div>
+              <div class="option_text_display_for_single_option">
+                <%= option.option_text %>
+              </div>
+            </div>
+            <div class="buttons_div_for_opitions_edit_question">
+              <%= link_to "Edit" , edit_test_question_option_path(@test , @question , option) , class: "btn btn-primary"%>
+              <%= link_to "Delete" , test_question_option_path(@test , @question , option) , data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } , class: "btn btn-danger"%>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p style="text-align : center; font-size : 1.2rem;">No Options Yet!</p>
+      <% end %>
+    </div>
+    <div class="left_side_form_for_the_question_div">
+      <div class="top_heading_for_edit_question">
+        Create Options
+      </div>
+      <%= render 'options/form', question: @question %>
+    </div>
+  </div>
+
+  <div class="display_question_for_edit_model">
+    <div class="top_heading_for_edit_question">
+      Preview
+    </div>
+    <div class="single_question_div_for_index_question" style="width: 70%; position: relative; left: 50%; transform: translate(-50%);">
+      <div class="title_of_single_question_div_for_question_index">
+        <div class="qustion_heading_for_the_index_question">
+          Question:
+        </div>
+        <div class="question_title_for_the_index_question">
+          <%= @question.title %>
+        </div>
+      </div>
+      <div class="option_div_for_single_question_index_questions">
+        <% if @question.options.present? %>
+          <% @question.options.each do |option| %>
+            <div class="single_option_for_single_question_div_index">
+              <div class="option_key_display_for_single_option">
+                <%= "#{option.option_key} : " %>
+              </div>
+              <div class="option_text_display_for_single_option">
+                <%= option.option_text %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="correct_option_div_for_question">
+        <div class="correct_option_heading_div">
+          Correct Answer:
+        </div>
+        <div class="correct_answer_title_display_for_question">
+          <% if @question.correct_option.present? %>
+            <% @correct_option_with_id = Option.find_by(id: @question.correct_option.chomp.to_i) %>
+            <% if @correct_option_with_id.present? %>
+              <div class="correct_answer_title_display_for_question">
+                <%= @correct_option_with_id.option_key %><span style="margin-left : 1rem; font-size : 1.2rem; font-weight : bold;">(<%= @correct_option_with_id.option_text %>)</span>
+              </div>
+            <% else %>
+              <div>Not Added yet!</div>
+            <% end %>
+          <% else %>
+            <div>Not Added yet!</div>
+          <% end %>
+        </div>
+      </div>
+      <div class="correct_option_div_for_question">
+        <div class="correct_option_heading_div">
+          Marks :
+        </div>
+        <div class="correct_answer_title_display_for_question">
+          <% if @question.marks.present? %>
+            <%= @question.marks %>
+          <% else %>
+            <div>Not Added yet!</div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

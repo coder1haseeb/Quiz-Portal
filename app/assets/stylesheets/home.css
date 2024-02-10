@@ -1,0 +1,742 @@
+
+.home_page_main_div {
+    background: linear-gradient(rgba(0,0,0,0.7) , rgba(0,0,0,0.7)), url("https://images.unsplash.com/photo-1503423571797-2d2bb372094a?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVldGluZyUyMHJvb218ZW58MHx8MHx8fDA%3D") ;
+    background-repeat: no-repeat;
+    background-size: cover; /* Use cover to maintain aspect ratio and cover entire area */
+    height: 100vh;
+}
+.upper_nav_bar_for_home_page{
+    display: flex;
+    height: 80px;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 2rem;
+}
+.left_side_logo_for_home_page h3{
+    color: goldenrod;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.right_side_link_for_login a{
+    text-decoration: none;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    color: black;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.lower_info_for_home_page_div{
+    height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+}
+.lower_inner_info_for_home_page_div{
+    margin-left: 5rem;
+}
+.small_white_text_for_info{
+    font-size: 3.5rem;
+    color: white;
+    font-weight: bold;
+}
+.large_golden_text_for_info{
+    font-size: 7rem;
+    color: goldenrod;
+    margin-top: -1rem;
+    font-weight: bold;
+}
+.create_a_account_button_for_home_page a{
+    font-size: 1.3rem;
+    color: black;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+.outer_div_for_form_of_user_div{
+    height: 100vh;
+}
+.upper_part_link_to_root_path{
+    height: 70px;   
+    display: flex;
+    align-items: center;
+    margin-left: 2rem;
+}
+.upper_part_link_to_root_path a{
+    text-decoration: none;
+    color: black;
+    font-size: 1.3rem;
+}
+
+.lower_outer_form_div_for_user{
+    height: calc(100vh - 130px);
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+.lower_inner_form_div_for_users{
+    width: 375px;
+    /* background-color: red; */
+}
+.lower_inner_form_div_for_users h2{
+    text-align: center;
+    font-size: 2.3rem;
+}
+.lower_inner_form_div_for_users form{
+    width: 100%;
+}
+.field{
+    /* display: flex; */
+    margin: .8rem 0;
+}
+.field label{
+    font-size: 1.1rem;
+}
+/* .field input{
+    border: none;
+    border-bottom: 1px solid ;
+    width: 100%;
+    outline: none;
+    margin-top: .5rem;
+} */
+
+.unlock_screen_div_main{
+    margin: 2rem 4rem 0;
+    display: flex;
+    /* justify-content: space-around; */
+}
+.unlock_screen_left_side_profile{
+    width: 33%;
+}
+.upper_image_div_for_user{
+}
+.upper_image_div_for_user img{
+    width: 20rem;
+    height: 20rem;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.single_div_for_user_entity{
+    margin: 1rem 0;
+    display: flex;
+}
+.label_for_user_unlock_screen{
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 8rem;
+}
+
+.dynamic_entity_for_user_unlock{
+    font-size: 1.1rem;
+}
+.role_div_unlock_screen{
+    text-transform: capitalize;
+    color: rgb(255, 0, 128);
+}
+
+.all_admins_div_unlock_screen{
+    width: 33%;
+}
+
+.top_all_admins_heading_div{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.all_admins_map_div_unlock{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.single_admin_div_for_unlock_screen{
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    margin: 1rem 0;
+    width: 80%;
+}
+
+.left_side_admin_image_div img{
+    object-fit : cover; 
+    border-radius : 50%;
+}
+
+.right_side_info_div_admin{
+    margin-left: 1rem;
+}
+
+.right_side_info_div_name{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.right_side_info_div_username{
+    color: rgba(0,0,0,0.6);
+}
+
+.actions_div_for_user{
+    
+}
+
+.outer_div_for_the_user_display{
+    display: flex;
+    justify-content: center;
+}
+.inner_div_for_the_user_display{
+    width: 60%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    margin-top: 3rem;
+    border-radius: 7px;
+    padding: 1rem;
+}
+
+
+.top_div_for_the_user_header_display {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.322);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.top_div_for_the_user_header_display p{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.top_div_for_the_user_header_display svg{
+    margin-bottom: 1rem;
+}
+.top_div_for_the_user_header_display a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.center_div_for_user_profile{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.showed_user_left_side_image img{
+    height: 20rem;
+    width: 20rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.showed_user_right_side_data{
+    margin-left: 10rem;
+}
+
+.name_of_showed_user_div{
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+.username_of_showed_user_div{
+    font-size: 1.3rem;
+    color: rgba(0,0,0,0.7);
+    margin: .4rem 0;
+}
+.email_of_showed_user_div{
+    font-size: 1.1rem;
+    color: rgba(0,0,0,0.7);
+    margin: .4rem 0;
+}
+
+.role_of_showed_user_div{
+    color: rgb(255, 0, 128) ;
+    text-transform: capitalize;
+    font-size: 1.2rem;
+    margin: .4rem 0;
+}
+
+.outer_div_form_for_test_creation{
+    display: flex;
+    justify-content: center;
+}
+.inner_div_for_the_test_creation{
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.top_heading_for_test_creation{
+    font-size: 3rem;
+}
+
+.inner_div_for_the_test_creation form{
+    width: 30%;
+    /* background-color: red; */
+    margin-top: 2rem;
+}
+.inner_form_div_test_creation {
+    align-items: center;
+    display: flex;
+}
+.inner_form_div_test_creation label{
+    font-size: 1.3rem;
+    margin-right: 1rem;
+}
+.inner_form_div_test_creation input{
+    width: 100%;
+    height: 2.3rem;
+    font-size: 1.2rem;
+    padding: .2rem;
+}
+
+.submit_button_for_test_creation{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: 2rem;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 6px;
+}
+
+.single_test_all_question_div_main{
+    margin: 0 3rem;
+}
+.top_heading_for_current_question{
+    font-size: 2.5rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.add_new_question_link_for_questions{
+    margin: .5rem 0;
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+}
+.add_new_question_link_for_questions p{
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: white;
+    margin-left: 1rem;
+    margin-bottom: 0;
+}
+.all_question_map_div_for_index_question{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creates three columns */
+    grid-gap: 10px; /* Adds a gap between the divs (optional) */
+    margin-top: 1rem;
+    width: 100%;
+    /* background-color: green; */
+}
+.single_question_div_for_index_question{
+    background-color: rgba(216, 214, 214, 0.507);
+    width: 100%;
+    height: auto;
+    margin: 0 2rem;
+    border-radius: 8px;
+    padding: 1rem;
+}
+.title_of_single_question_div_for_question_index{
+    display: flex;
+    align-items: center;
+}
+.qustion_heading_for_the_index_question{
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.qustion_title_for_the_index_question{
+    margin-left: .3rem;
+}
+.single_option_for_single_question_div_index{
+    display: flex;
+    align-items: center;
+}
+
+.option_key_display_for_single_option , .correct_option_heading_div{
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.option_text_display_for_single_option , .correct_answer_title_display_for_question{
+    margin-left: .5rem;   
+}
+.correct_option_div_for_question{
+    display: flex;
+    align-items: center;
+}
+
+.link_for_action_of_question{
+    margin-top: auto;
+}
+.top_heading_for_edit_question{
+    font-size: 2rem;
+    margin-top: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
+.bottom_div_for_the_form_of_option_and_question{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.left_side_form_for_the_question_div{
+    width: 30%;
+    margin: 0 2rem;
+    background-color: rgba(216, 214, 214, 0.507);
+    padding: 1rem;
+    border-radius: 9px;
+}
+
+.top_heading_for_left_side_form_for_the_question_div{
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.question_update_input_div_for_single{
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.question_update_input_div_for_single label{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.question_update_input_div_for_single input{
+    padding: .3rem;
+    width: 100%;
+    margin-left: .5rem;
+    border-radius: 5px;
+    outline: none;
+}
+.choose_correct_option_from_user_div{
+    display: flex;
+}
+.choose_correct_option_from_user_div label{
+    font-size: 1rem;
+    font-weight: bold;
+    width: 30%;
+}
+
+.choose_correct_option_from_user_div select{
+    width: 70%;
+    height: 2rem;
+    /* width: 100%; */
+    border-radius: 5px;
+}
+/* .buttons_div_for_opitions_edit_question{
+} */
+.outer_div_for_all_tests_session_div{
+    margin: 0 2rem;
+}
+.all_tests_map_div_index{
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Creates three columns */
+    grid-gap: 10px; /* Adds a gap between the divs (optional) */
+}
+
+.single_div_for_test_all_index{
+    background-color: rgba(216, 214, 214, 0.507);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    height: 13rem;
+    background-image: url("data:image/jpeg;base64,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");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+.single_div_for_test_all_index{
+    text-decoration: none;
+    color: white;
+}
+.test_assignment_index_page_main_div{
+    margin: 0 2rem;
+}
+.single_div_for_all_test_map_index_assignment{
+    /* background-color: rgba(216, 214, 214, 0.507); */
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.single_div_for_all_test_map_index_assignment_numbering{
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.add_users_to_assignment_new_action{
+    margin: 0 2rem;
+}
+.lower_divs_for_addition_of_users{
+    display: flex;
+    justify-content: space-around;
+    margin-top:2rem;
+}
+.all_users_diaplay_for_assignment_section{
+    background-color: rgba(216, 214, 214, 0.507);
+    padding: 1.5rem;
+    border-radius: 9px;
+    width: 40%;
+    height: 40rem;
+    overflow-y: auto;
+}
+.heading_all_users_diaplay_for_assignment_section{
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+.visible_fields_for_the_user_add_to_assignment{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: .6rem 4rem;
+}
+.user_name_for_adding_to_the_assignment{
+    display: flex;
+    align-items: center;
+}
+.user_name_for_adding_to_the_assignment p{
+    font-size: 1.3rem;
+    margin-bottom: 0;
+    margin-left: 1rem;
+}
+
+.no_user_added_yet{
+    font-size: 1.23rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 3rem;
+}
+.single_question_main_div_submit{
+    background-color: rgba(216, 214, 214, 0.507);
+    padding: 1.5rem;
+    border-radius: 9px;
+    margin: .6rem 4rem;
+}
+.lower_div_for_the_question_index_page{
+    display: flex;
+    /* justify-content: space-between; */
+    /* align-items: start; */
+}
+.solved_users_div_for_question_index{
+    width: 100% !important;
+    /* background-color: red; */
+    margin-top: 1rem;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    border-radius: 9px;
+    padding: 1rem;
+}
+.top_heading_for_user_solved_div{
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: bold;
+}
+.user_test_scores{
+    background-color: rgba(216, 214, 214, 0.507);
+    border-radius: 8px;
+    padding: .6rem;
+    margin: .5rem 0;
+}
+.edit_page_main_div_for_the_option{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    top: 4rem;
+    width: 50%;
+    padding: 1.5rem;
+    background-color: rgba(216, 214, 214, 0.507);
+    border-radius: 9px;
+}
+.main_page_index_for_blanks_div{
+    margin: 0 2rem;
+}
+.lower_div_for_form_and_display_blanks{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.form_for_blank_creation_index_page_div{
+    width: 33%;
+    background-color: rgba(216, 214, 214, 0.507);
+    padding: 1rem;
+    border-radius: 8px;
+    height: calc(100vh - 30rem);
+    margin-top: 2rem;
+}
+.display_for_all_blanks_index_page_div{
+    width: 62%;
+    /* background-color: bisque; */
+}
+.create_a_blank_div_for_the_form_div{
+    text-align: center;
+    margin-bottom: .5rem;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.single_field_for_the_creation_of_blank{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+.single_field_for_the_creation_of_blank label{
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: 30%;
+}
+.single_field_for_the_creation_of_blank input{
+    width: 100%;
+    padding: .5rem;
+    border-radius: 7px;
+    font-size: 1.2rem;
+}
+.submit_button_for_form_submition_blank{
+    display: flex;
+    justify-content: center;
+}
+.display_for_all_blanks_index_page_div{
+    border-radius: 8px;
+    padding: 1rem;
+    height: calc(100vh - 10rem);
+    overflow: auto;
+}
+.headig_for_all_blanks_div_main_page{
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.display_for_all_blanks_index_page_div_inner{
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); /* Creates three columns */
+    grid-gap: 10px;
+}
+.singel_display_for_single_blank_index{
+    /* background-color: rgba(155, 154, 154, 0.171); */
+    /* box-shadow: 0 0 5px; */
+    border-radius: 8px;
+    background-color: rgba(216, 214, 214, 0.507);
+    padding: 1rem;
+    /* height: 20rem; */
+}
+.single_entity_div_for_single_display{
+    display: flex;
+    margin: .5rem 0;
+}
+.dynamic_entity_for_single_entity_div{
+    font-size: 1.1rem;
+    /* display: flex; */
+    /* align-items: baseline; */
+}
+.static_heading_for_single_entity_label_blank{
+    font-weight: bold;
+    width: 20%;
+}
+.dynamic_entity_for_single_entity_div input{
+    border: none;
+    outline: none;
+    margin-top: -.5rem;
+    /* position: relative;
+    top */
+    border-bottom: 1px solid black;
+    background-color: transparent;
+}
+input[type="checkbox"]:checked {
+    color: green;
+  }
+
+input[type="checkbox"] {
+    color: blue;
+}
+.changes_text_into_the_field_div_for_blank input{
+    text-align: center;
+}
+.lower_socre_for_each_submtion_test{
+    margin: 1rem 4rem;
+}
+.lower_div_for_test_show_for_score_and_request{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    /* background: red; */
+    margin: 1rem 2rem;
+}
+.all_requests_show_for_the_use_div{
+    width: 40%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+.solved_users_div_for_question_index{
+    width: 57%;
+}
+.single_request_div_for_the_question_show{
+    padding: 1rem;
+    margin: .5rem 0;
+    background-color: rgba(216, 214, 214, 0.507);
+    border-radius: 7px;
+}
+.upper_div_for_request_test_show{
+    display: flex;
+    align-items: center;
+}
+.right_side_for_request_show_test_show{
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+}
+.name_of_user_right_side_for_request_show_test_show{
+    font-size: 1.2rem;
+}
+.marks_of_user_right_side_for_request_show_test_show{
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-left: 3rem;
+}
+.lower_div_for_request_for_show{
+    display: flex;
+    margin-top: .6rem;
+}
+.single_div_for_questioN_submit_sindex{
+    padding: 1rem;
+    background-color: rgba(216, 214, 214, 0.507);
+    width: 100%;
+    margin: 1rem 0;
+    border-radius: 7px;
+}
+.question_div_for_submit_show{
+    /* width: 100%; */
+    margin: 0 2rem;
+    display: flex;
+    justify-content: center;
+}
+.questioN_title_div_for_the_submit_index{
+    font-size: 1.1rem;
+}
+
+.correct_answer_div_for_submit_show{
+    color: green;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.submitted_answer_div_for_submit_show{
+    font-weight: bold;
+    font-size: 1.1rem;
+}

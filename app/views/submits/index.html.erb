@@ -1,0 +1,165 @@
+<% question_score = 0%>
+<% truefalse_score = 0 %>
+<% blanks_score = 0%>
+<% question_obtained_score = 0%>
+<% blank_obtained_score = 0%>
+<% truefalse_obtained_score = 0%>
+<% @test.questions.each do |question|%>
+  <% if question.marks && question.marks > 0 %>
+    <% question_score += question.marks%>
+  <% end %>
+<% end %>
+<% @test.blanks.each do |blank|%>
+  <% if blank.marks && blank.marks > 0 %>
+    <% blanks_score += blank.marks%>
+  <% end %>
+<% end %>
+<% @test.truefalse.each do |truefalse| %>
+  <% if truefalse.marks && truefalse.marks > 0 %>
+    <% truefalse_score += truefalse.marks %>
+  <% end %>
+<% end %>
+<% total_test_score = question_score + blanks_score + truefalse_score%>
+
+<div class="main_div_for_take_test_div_submit">
+  <div class="top_heading_for_current_question" style="display : flex; align-items : center; justify-content : center;">
+    <%= @test.name %><span style="margin-left : 1rem; font-size : 1.2rem;">(<%= total_test_score%> Marks)</span>
+  </div>
+  <div class="user_by_whome_submitted btn btn-success" style="display : flex; align-items : center; justify-content : center; margin : 0 2rem;">
+    <h3>
+       Submitted by <%= @user.name%>
+    </h3>
+  </div>
+</div>
+<% result_extract = @user.results.find_by(test_id: @test.id)%>
+<% if result_extract.present? %>
+  <% if result_extract.status == true %>
+    <div style="margin : 1rem 2rem;">
+      <div class="alert alert-success" style="font-size : 1.2rem; font-weight : bold;"><%= @user.name%> has passed the test successfully.</div>
+    </div>
+  <%else%>
+    <div style="margin : 1rem 2rem;">
+      <div class="alert alert-danger" style="font-size : 1.2rem; font-weight : bold;">
+        <%= @user.name%> have failed the test.
+        <%= form_with(model: Final.new, url: test_finals_path(@test, user_id: @user.id), method: :post) do |form|%>
+          <div>
+            <%= form.hidden_field :test_id , value: @test.id%>
+            <%= form.hidden_field :user_id , value: @user.id%>
+            <%= form.submit "Allow Retake Test." , class: "btn btn-danger"%>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div style="display : flex; margin : 1rem 2rem ; align-items : center;" class="alert alert-info">
+    Mark the Status for the User
+    <%= form_with(model: Result.new , url: test_results_path(@test, user_id: @user.id), method: :post) do |form|%>
+      <div>
+        <%= form.hidden_field :test_id , value: @test.id%>
+        <%= form.hidden_field :user_id , value: @user.id%>
+        <%= form.hidden_field :status , value: true%>
+        <%= form.submit "Pass" , class: "btn btn-success" , style: "margin : 0 1rem;"%>
+      </div>
+    <% end %>
+    <%= form_with(model: Result.new , url: test_results_path(@test, user_id: @user.id), method: :post) do |form|%>
+      <div>
+        <%= form.hidden_field :test_id , value: @test.id%>
+        <%= form.hidden_field :user_id , value: @user.id%>
+        <%= form.hidden_field :status , value: false%>
+        <%= form.submit "Fail" , class: "btn btn-danger"%>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<% if @submits.present? %>
+  <% @submits.each_with_index do |submit| %>
+    <% question_submits = @test.questions.where(id: submit.question_id) %>
+    <% blank_submits = @test.blanks.where(id: submit.blank_id) %>
+    <% truefalse_submits = @test.truefalse.where(id: submit.truefalse_id) %>
+    <% if question_submits.present? && submit.question_id.present? && submit.option_id.present? %>
+      <div class="question_div_for_submit_show">
+        <% question_submits.each_with_index do |question_submit| %>
+            <div class="single_div_for_questioN_submit_sindex">
+                <div class="questioN_title_div_for_the_submit_index">
+                    <strong>Question : </strong><%= question_submit.title %><strong style="margin-left : 1rem; font-size : 1rem;">(<%= question_submit.marks%> Marks)</strong>
+                </div>
+                <% correct_answer = question_submit.options.find_by(id: question_submit.correct_option.chomp.to_i) %>
+                <div class="correct_answer_div_for_submit_show">
+                    Correct Answer : <%= correct_answer.option_text %>
+                </div>
+                <% submitted_answer = question_submit.options.find_by(id: submit.option_id) %>
+                <div class="submitted_answer_div_for_submit_show">
+                    Submitted Answer : <%= submitted_answer.option_text %>
+                </div>
+                <% if correct_answer.id == submitted_answer.id %>
+                    <h5 style="color : green; font-size : 1.2rem; font-weight : bold;">Score obtianed in this Question are <%=question_submit.marks%></h5>
+                    <% question_obtained_score += question_submit.marks%>
+                <% else %>
+                    <h5 style="color :red; font-size : 1.2rem; font-weight : bold;">Score obtianed in this Question are 0.</h5>
+                <% end %>
+            </div>
+        <% end %>
+      </div>
+    <% end %>            
+    <% if blank_submits.present? %>
+      <div class="question_div_for_submit_show">
+        <% blank_submits.each do |blank_submit| %>
+            <div class="single_div_for_questioN_submit_sindex">
+                <div class="questioN_title_div_for_the_submit_index">
+                    <strong>Blank : </strong><%= blank_submit.blank %> <strong style="margin-left : 1rem; font-size : 1rem;">(<%= blank_submit.marks%> Marks)</strong>
+                </div>
+                <div class="correct_answer_div_for_submit_show">
+                    Correct Answer : <%= blank_submit.correct_blank %>
+                </div>
+                <div class="submitted_answer_div_for_submit_show">
+                    Submitted Answer : <%= submit.entered_blank %>
+                </div>
+                <% if blank_submit.correct_blank == submit.entered_blank %>
+                    <h5 style="color : green; font-size : 1.2rem; font-weight : bold;">Score obtianed in this Question are <%=blank_submit.marks%></h5>
+                    <% blank_obtained_score += blank_submit.marks%>
+                <% else %>
+                    <h5 style="color :red; font-size : 1.2rem; font-weight : bold;">Score obtianed in this Question are 0.</h5>
+                <% end %>
+            </div>
+        <% end %>
+      </div>
+    <% end %>
+    <% if truefalse_submits.present? %>
+    <div class="question_div_for_submit_show">
+        <% truefalse_submits.each do |truefalse_submit| %>
+            <div class="single_div_for_questioN_submit_sindex">
+                <div class="questioN_title_div_for_the_submit_index">
+                    <strong>True/False: </strong><%= truefalse_submit.statement %> <strong style="margin-left : 1rem; font-size : 1rem;">(<%= truefalse_submit.marks%> Marks)</strong>
+                </div>
+                <div class="correct_answer_div_for_submit_show">
+                    Correct Answer: 
+                    <span><%= truefalse_submit.state %></span>
+                </div>
+                <div class="submitted_answer_div_for_submit_show">
+                    Submitted Answer:
+                    <span><%= submit.entered_state %></span>
+                </div>
+                <% if truefalse_submit.state == submit.entered_state %>
+                    <h5 style="color : green; font-size : 1.2rem; font-weight : bold;">Score obtianed in this Question are <%=truefalse_submit.marks%></h5>
+                    <% truefalse_obtained_score += truefalse_submit.marks%>
+                <% else %>
+                    <h5 style="color :red; font-size : 1.2rem; font-weight : bold;">Score obtianed in this Question are 0.</h5>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>
+    <h1 style="text-align : center;">
+      No submits yet
+    </h1>
+  </p>
+<% end %>
+<div class="lower_socre_for_each_submtion_test">
+  <h2 style="text-align : center; margin-top : 1rem;">Total Marks</h2>
+  <% total_obtained_score = question_obtained_score + blank_obtained_score + truefalse_obtained_score%>
+  <button class="alert alert-info" style=" width :100%; font-size : 1.6rem;">Obtained Marks <strong><%= total_obtained_score%></strong> / <%= total_test_score%></button>
+</div>

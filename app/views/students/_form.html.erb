@@ -1,0 +1,56 @@
+<h2 style="text-align : center; margin-top : 2rem;">Create a new User</h2>
+<div class="lower_outer_form_div_for_user">
+
+
+  <%= form_with(model: user, url: students_path, local: true, html: { style: "width: 70%;" }) do |f| %>
+    <div class="inner_form_div">
+      <div class="form-floating mb-3">
+        <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control", required: :true , id: "floatingInputName" %>
+        <%= f.label :name, class: "form-label", for: "floatingInputName" %>
+      </div>
+      
+      <div class="form-floating mb-3">
+        <%= f.text_field :username, autofocus: true, autocomplete: "name", class: "form-control", required: :true , id: "floatingInputName" %>
+        <%= f.label :username, class: "form-label", for: "floatingInputName" %>
+      </div>
+      
+      <div class="form-floating mb-3">
+        <%= f.file_field :image, class: "form-control", id: "floatingInputImage" %>
+        <%= f.label "#{:image} (Can be skipped)", class: "form-label", for: "floatingInputImage" %>
+      </div>
+      
+      <div class="form-floating mb-3">
+        
+        <% if current_user.role == "super admin" %>
+          <%= f.select :role, [['Admin', 'admin'], ['User', 'user']], { prompt: 'Select Role' }, class: "form-control", required: true, id: "roleSelect" %>
+        <% else %>
+          <%= f.select :role, ['User'], { prompt: 'Select Role' }, class: "form-control", required: true, id: "roleSelect" %>
+        <% end %>
+        
+        <%= f.label :role, class: "form-label", for: "floatingInputImage" %>
+      </div>
+      
+      <div class="form-floating mb-3">
+        <%= f.email_field :email, class: "form-control", required: :true , id: "floatingInputEmail", autocomplete: "email" %>
+        <%= f.label :email, class: "form-label", for: "floatingInputEmail" %>
+      </div>
+      
+      <div class="form-floating mb-3">
+        <%= f.password_field :password, class: "form-control", required: :true , id: "floatingInputPassword", autocomplete: "new-password" %>
+        <%= f.label "#{:password} (Atleast 6 character long)", class: "form-label", for: "floatingInputPassword" %>
+        <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %>
+      </div>
+      
+      <div class="form-floating mb-3">
+        <%= f.password_field :password_confirmation, class: "form-control", required: :true , id: "floatingInputPasswordConfirmation", autocomplete: "new-password" %>
+        <%= f.label :password_confirmation, class: "form-label", for: "floatingInputPasswordConfirmation" %>
+      </div>
+      
+      <div class="actions" style="text-align: center;">
+        <%= f.submit "Create", class: "btn btn-success" %>
+      </div>
+    </div>
+<% end %>
+</div>

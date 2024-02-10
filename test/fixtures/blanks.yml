@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  blank: MyString
+  correct_blank: MyString
+
+two:
+  blank: MyString
+  correct_blank: MyString

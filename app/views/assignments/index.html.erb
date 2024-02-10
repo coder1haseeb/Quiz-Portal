@@ -1,0 +1,17 @@
+<div class="test_assignment_index_page_main_div">
+  <div class="top_heading_for_current_question">
+    Assign Quizes to Users
+  </div>
+  <div class="all_tests_map_div_index">
+    <% @tests.each_with_index do |test , index|%>
+      <div class="single_div_for_all_test_map_index_assignment">
+        <div class="single_div_for_all_test_map_index_assignment_numbering">
+          <%= "#{index + 1} - #{test.name}"%>
+        </div>
+        <div class="single_div_for_all_test_map_index_assignment_link">
+          <%= link_to "Add Members" , new_assignment_path(test_id: test.id) , class: "btn btn-success"%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

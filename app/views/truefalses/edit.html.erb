@@ -1,0 +1,30 @@
+<div class="form_for_blank_creation_index_page_div"
+    style="width : 70%;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);"
+  >
+  <div class="create_a_blank_div_for_the_form_div">
+    Edit True False
+  </div>
+  <div class="info_div_for_creation_of_the_blank alert alert-success">
+    Check the box if it is Ture, otherwise for False leave it unchecked.
+  </div>
+  <%= form_with(model: [@test, @truefalse], url: test_truefalse_path(@test) , method: :patch) do |form| %>
+    <div class="single_field_for_the_creation_of_blank">
+      <%= form.label :statement %>
+      <%= form.text_field :statement, required: true, placeholder: "Enter the text"%>
+    </div>
+    <div class="single_field_for_the_creation_of_blank">
+      <%= form.label :state %>
+      <%= form.check_box :state , style: "height : 2rem;" %>
+    </div>
+    <div class="single_field_for_the_creation_of_blank">
+      <%= form.label :marks %>
+      <%= form.number_field :marks, required: true, min: 1, placeholder: "Enter marks" %>
+    </div>
+    <div class="submit_button_for_form_submition_blank">
+      <%= form.submit "Update" , class: "btn btn-success"%>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,13 @@
+<div class="unlock_screen_div_main">
+    <%= render 'profile_section' %>
+    
+    <% if current_user.role == "super admin" %>
+        <%= render 'homeAdmin' %>
+        <%= render 'homeUsers' %>
+    <% end %>
+
+    <% if current_user.role == "admin" %>
+        <%= render 'homeUsers' %>
+    <% end %>
+    
+</div>

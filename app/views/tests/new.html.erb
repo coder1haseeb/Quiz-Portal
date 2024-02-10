@@ -1,0 +1,14 @@
+<div class="outer_div_form_for_test_creation">
+  <div class="inner_div_for_the_test_creation">
+    <div class="top_heading_for_test_creation">
+      Create a Test
+    </div>
+    <%= form_with(model: @test) do |form|%>
+      <div class="inner_form_div_test_creation">
+        <%= form.label :name%>
+        <%= form.text_field :name , required: :true%>
+      </div>
+      <%= form.submit "Create" , class: "submit_button_for_test_creation btn btn-success"%>
+    <% end %>
+  </div>
+</div>

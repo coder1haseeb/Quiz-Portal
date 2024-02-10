@@ -1,0 +1,85 @@
+<% test_score = 0%>
+<% @test.truefalse.each do |truefalse|%>
+  <% if truefalse.marks && truefalse.marks > 0 %>
+    <% test_score += truefalse.marks%>
+  <% end %>
+<% end %>
+<div class="main_page_index_for_blanks_div">
+  <div class="top_heading_for_current_question" style="display : flex; justify-content : space-between; align-items : center;">
+    <span style="display : flex; align-items :center;">
+      <%= link_to test_path(@test) ,style: " margin-right: 1rem; color : black; margin-top : -.4rem;" do%>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+        </svg>
+      <% end%>
+      <%= @test.name%>/TrueFalse<span style="margin-left : 1rem; font-size : 1.2rem;">(<%= test_score%> Marks)</span>
+    </span>
+  </div>
+  <div class="lower_div_for_form_and_display_blanks">
+    <div class="form_for_blank_creation_index_page_div">
+      <div class="create_a_blank_div_for_the_form_div">
+        Create new True False
+      </div>
+      <div class="info_div_for_creation_of_the_blank alert alert-success">
+        Check the box if it is Ture, otherwise for False leave it unchecked.
+      </div>
+      <%= form_with(model: [@test, Truefalse.new], url: test_truefalses_path(@test)) do |form| %>
+        <div class="single_field_for_the_creation_of_blank">
+          <%= form.label :statement %>
+          <%= form.text_field :statement, required: true, placeholder: "Enter the text"%>
+        </div>
+        <div class="single_field_for_the_creation_of_blank">
+          <%= form.label :state %>
+          <%= form.check_box :state , style: "height : 2rem;" %>
+        </div>
+        <div class="single_field_for_the_creation_of_blank">
+          <%= form.label :marks %>
+          <%= form.number_field :marks, required: true, min: 1, placeholder: "Enter marks" %>
+        </div>
+        <div class="submit_button_for_form_submition_blank">
+          <%= form.submit "Create" , class: "btn btn-success"%>
+        </div>
+      <% end %>
+    </div>
+    <div class="display_for_all_blanks_index_page_div">
+      <div class="headig_for_all_blanks_div_main_page">
+        All True False
+      </div>
+      <div class="display_for_all_blanks_index_page_div_inner">
+        <% @truefalses.each do |truefalse| %>
+          <div class="singel_display_for_single_blank_index">
+            <div class="single_entity_div_for_single_display">
+              <div class="dynamic_entity_for_single_entity_div">
+                <%= truefalse.statement %>
+              </div>
+            </div>
+            <div class="single_entity_div_for_single_display">
+              <div class="static_heading_for_single_entity_label_blank">
+                Status
+              </div>
+              <div class="dynamic_entity_for_single_entity_div">
+                <%= truefalse.state %>
+              </div>
+            </div>
+            <div class="single_entity_div_for_single_display">
+              <div class="static_heading_for_single_entity_label_blank">
+                Marks
+              </div>
+              <div class="dynamic_entity_for_single_entity_div">
+                <%= truefalse.marks %>
+              </div>
+            </div>
+            <div class="single_entity_div_for_single_display">
+              <div class="dynamic_entity_for_single_entity_div">
+                <%= link_to "Delete", test_truefalse_path(@test, truefalse), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+              </div>
+              <div class="dynamic_entity_for_single_entity_div">
+                <%= link_to "Edit", edit_test_truefalse_path(@test, truefalse),  class: "btn btn-primary" , style: "margin-left: 1rem;" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

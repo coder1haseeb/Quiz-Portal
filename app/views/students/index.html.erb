@@ -1,0 +1,26 @@
+<%# This code renders a link to create a new student %>
+<%# <%= link_to "Create new " , new_student_path %> %>
+
+<%# Iterates through each user in the @users collection %>
+<%# <% @users.each do |user| %> 
+  <div>
+    <%# Renders user information such as name, email, username, and role %> 
+    <%# <%= user.name %> %>
+    <%# <%= user.email %> %>
+    <%# <%= user.username %> %>
+    <%# <%= user.role %> %>
+    
+    <%# Checks if the user has an attached image and displays it if available %> 
+    <%# <% if user.image.attached? %> %>
+      <%# <%= image_tag(user.image , height: "100rem" , width: "100rem" , style: "border-radius: 50%; object-fit : cover;") %> %>
+    <%# <% end %> %>
+  </div>
+  
+  <%# Renders a delete link for each user with a confirmation prompt %> 
+  <%# <%= link_to "Delete" , student_path(user) , data: {turbo_method: :delete , turbo_confirm: "Are you Sure?"} %> %>
+  
+  <%# Renders an edit link for each user, directing to the user's registration edit page %> 
+  <%# <%= link_to "Edit" , edit_user_registration_path(user) %> %>
+  
+<%# End of the loop through @users %> 
+<%# <% end %> %>

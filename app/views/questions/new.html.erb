@@ -1,0 +1,15 @@
+<%#  same css for quesiton then test is the class name included %>
+<div class="outer_div_form_for_test_creation">
+  <div class="inner_div_for_the_test_creation">
+    <div class="top_heading_for_test_creation">
+      Create a new Question
+    </div>
+    <%= form_with(model: @test.questions.build, url: test_questions_path(@test)) do |f| %>
+      <div class="inner_form_div_test_creation">
+        <%= f.label :title %>
+        <%= f.text_field :title , required: :true%>
+      </div>
+      <%= f.submit "Next" , class: "submit_button_for_test_creation btn btn-success"%>
+    <% end %>
+  </div>
+</div>

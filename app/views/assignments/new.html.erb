@@ -1,0 +1,58 @@
+<% allAdded = @users.all? { |user| @assignments.any? { |assignment| assignment.user_id == user.id && assignment.test_id == @test.id } } %>
+
+<div class="add_users_to_assignment_new_action">
+  <div class="top_heading_for_current_question">
+    Add Users to <%= @test.name %>
+  </div>
+  <div class="lower_divs_for_addition_of_users">
+    <div class="all_users_diaplay_for_assignment_section">
+      <div class="heading_all_users_diaplay_for_assignment_section">
+        Add Users
+      </div>
+      <% @users.each do |user| %>
+        <% existance = @assignments.any? { |assignment| assignment.user_id == user.id && assignment.test_id == @test.id } %>
+        <% unless existance %>
+          <%= form_with(model: Assignment.new) do |form| %>
+            <%= form.hidden_field :test_id, value: @test.id %>
+            <div class="visible_fields_for_the_user_add_to_assignment">
+              <%= form.hidden_field :user_id, value: user.id %>
+              <div class="user_name_for_adding_to_the_assignment">
+                <%= image_tag(user.image , height: "50rem" , width: "50rem" , style: "border-radius : 50%;" )%>
+                <p><%= user.name %></p>
+              </div>
+              <%= form.submit "Add" , class: "btn btn-primary"%>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% if allAdded %>
+        <div class="no_user_added_yet">
+          NO Remaining Users.
+        </div>
+      <% end %>        
+    </div>
+
+    <div class="all_users_diaplay_for_assignment_section">
+      <div class="heading_all_users_diaplay_for_assignment_section">
+        Added Users
+      </div>
+      <% if @assignments.any? { |assignment| assignment.test_id == @test.id } %>
+        <% @assignments.each do |assignment| %>
+          <% if assignment.test_id == @test.id %>
+            <div class="visible_fields_for_the_user_add_to_assignment">
+              <div class="user_name_for_adding_to_the_assignment">
+                <%= image_tag(assignment.user.image, height: "50rem", width: "50rem", style: "border-radius: 50%;") %>
+                <p><%= assignment.user.name %></p>
+              </div>
+              <%= link_to "Remove", assignment_path(assignment), data: { turbo_method: :delete }, class: "btn btn-danger" %>
+            </div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <div class="no_user_added_yet">
+          No Users Added Yet!
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

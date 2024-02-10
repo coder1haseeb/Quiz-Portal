@@ -1,0 +1,30 @@
+<div class="form_for_blank_creation_index_page_div"
+    style="width : 70%;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);"
+    >
+    <div class="create_a_blank_div_for_the_form_div">
+        Edit Blank
+    </div>
+    <div class="info_div_for_creation_of_the_blank alert alert-success">
+        Use double underscore and blank word (__blank__) to insert a checkmark for blank. Like <strong>2 + 2 = __blank__ ?</strong>
+    </div>
+    <%= form_with(model: [@test, @blank], url: test_blank_path(@test, @blank), method: :patch) do |form| %>
+        <div class="single_field_for_the_creation_of_blank">
+            <%= form.label :blank %>
+            <%= form.text_field :blank, required: true, placeholder: "Enter the text"%>
+        </div>
+        <div class="single_field_for_the_creation_of_blank">
+            <%= form.label :correct_blank %>
+            <%= form.text_field :correct_blank, required: true, placeholder: "Enter the correct answer"%>
+        </div>
+        <div class="single_field_for_the_creation_of_blank">
+            <%= form.label :marks %>
+            <%= form.number_field :marks, required: true, min: 1, placeholder: "Enter marks" %>
+        </div>
+        <div class="submit_button_for_form_submition_blank">
+            <%= form.submit "Update", class: "btn btn-success" %>
+        </div>
+    <% end %>
+</div>

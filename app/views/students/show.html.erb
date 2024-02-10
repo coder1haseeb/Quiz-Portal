@@ -1,0 +1,77 @@
+<div class="outer_div_for_the_user_display">
+  <div class="inner_div_for_the_user_display">
+    <div class="top_div_for_the_user_header_display">
+      <p>
+        Profile
+      </p>
+      <%= link_to root_path do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+          <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+        </svg>
+      <%end%>
+    </div>
+    <div class="center_div_for_user_profile">
+      <div class="showed_user_left_side_image">
+        <% if @user.image.attached? %>  
+          <%= image_tag(@user.image)%>
+        <% else %>
+          <%= image_tag("user.png")%>
+        <% end %>
+      </div>
+      <div class="showed_user_right_side_data">
+        <div class="name_of_showed_user_div">
+          <%= @user.name%>
+        </div>
+        <div class="username_of_showed_user_div">
+          <%= @user.username%>
+        </div>
+        <div class="email_of_showed_user_div">
+          <%= @user.email%>
+        </div>
+        <div class="role_of_showed_user_div">
+          <%= @user.role%>
+        </div>
+      </div>
+    </div>
+    <% if @user.role == "user" %>
+      <div>
+        <h3 style="font-weight : bold; text-align : center; margin : 1rem 0;">User's Test Scores</h3>
+          <% @user.assignments.each do |assignment| %>
+            <% test = assignment.test %>
+            <% test_score = 0%>
+            <% test.questions.each do |question|%>
+              <% if question.marks && question.marks > 0 %>
+                <% test_score += question.marks%>
+              <% end %>
+            <% end %>
+            <% total_score = 0 %>
+            <% all_questions_submitted = true %>
+            <div class="user_test_scores">
+              <h5><%= "#{test.name} Score:" %></h5>
+              <% test.questions.each do |question| %>
+                <% correct_answer = question.correct_option %>
+                <% user_submission = Submit.find_by(user_id: @user.id, question_id: question.id, test_id: test.id) %>
+                
+                <% if correct_answer.present? && user_submission.present? %>
+                  <% if user_submission.option_id == correct_answer.chomp.to_i %>
+                    <% total_score += question.marks %>
+                  <% end %>
+                <% else %>
+                  <% all_questions_submitted = false %>
+                <% end %>
+              <% end %>
+              
+              <% if all_questions_submitted %>
+                <p class="alert alert-success"><strong>Total Score:</strong> <%= total_score %> / <%= test_score%> </p>
+              <% else %>
+                <p class="alert alert-danger">Not Solved</p>
+              <% end %>
+            </div>
+          <% end %>
+          <% if @user.assignments.empty? %>
+            <p>No test scores available.</p>
+          <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

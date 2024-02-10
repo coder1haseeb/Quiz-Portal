@@ -1,0 +1,13 @@
+<%= form_with(model: [@test, question, Option.new], url: test_question_options_path(@test, question), local: true) do |form| %>
+  <div class="question_update_input_div_for_single">
+    <%= form.label :option_key ,style: "width : 50%"%>
+    <%= form.text_field :option_key , required: :ture , maxlength: 1%>
+  </div>
+
+  <div class="question_update_input_div_for_single">
+    <%= form.label :option_text , style: "width : 50%"%>
+    <%= form.text_field :option_text , required: :true %>
+  </div>
+
+  <%= form.submit "Create Option" ,class: "btn btn-success" ,style:"position : relative; left : 50%; transform :translate(-50%); margin-top : 1rem;" %>
+<% end %>

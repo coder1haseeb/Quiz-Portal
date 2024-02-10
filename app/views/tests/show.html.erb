@@ -1,0 +1,95 @@
+<% test_score = 0%>
+<% @test.questions.each do |question|%>
+  <% if question.marks && question.marks > 0 %>
+    <% test_score += question.marks%>
+  <% end %>
+<% end %>
+<% @test.blanks.each do |blank|%>
+  <% if blank.marks && blank.marks > 0 %>
+    <% test_score += blank.marks%>
+  <% end %>
+<% end %>
+<% @test.truefalse.each do |truefalse|%>
+  <% if truefalse.marks && truefalse.marks > 0 %>
+    <% test_score += truefalse.marks%>
+  <% end %>
+<% end %>
+<% question_background = "https://www.scienceofpeople.com/wp-content/uploads/2023/01/21-questions.jpg"%>
+<% blanks_background = "https://hopecity.com/wp-content/uploads/2018/04/FillInTheBlank_series_instagram_1.jpg"%>
+<% truefalse_background = "https://www.computerhope.com/jargon/t/true.jpg"%>
+<div class="outer_div_for_all_tests_session_div">
+  <div class="top_heading_for_current_question" style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="display : flex; align-items : center;">
+        <%= @test.name %><span style="margin-left : 1rem; font-size : 1.2rem;">(<%= @test_all_enteries %> Enteries)</span>
+    </div>
+    <%= link_to "Delete", test_path(@test), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+  </div>
+
+  <div class="all_tests_map_div_index" style="grid-template-columns: repeat(3, 1fr);">
+    <%= link_to "", test_questions_path(@test), class: "btn btn-success", style: "height: 25rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; background-image: url(#{question_background}); background-repeat : none; background-size : cover; background-position : center;" %>
+    <%= link_to "", test_blanks_path(@test), class: "btn btn-success", style: "height: 25rem; display: flex; align-items: center; justify-content: center; font-size: 3rem;background-image: url(#{blanks_background}); background-repeat : none; background-size : cover; background-position : center;" %>
+    <%= link_to "", test_truefalses_path(@test), class: "btn btn-success", style: "height: 25rem; display: flex; align-items: center; justify-content: center; font-size: 3rem;background-image: url(#{truefalse_background}); background-repeat : none; background-size : cover; background-position : center;" %>
+  </div>
+</div>
+
+<div style="margin :0 2rem;">
+  <div class="solved_users_div_for_question_index">
+    <div class="top_heading_for_user_solved_div">
+      Participants
+    </div>
+
+    <% @usersTest = Assignment.where(test_id: @test.id) %>
+    <% if @usersTest.present? %>
+      <% @usersTest.each do |assignment| %>
+        <% user = assignment.user %>
+        <% total_score = 0 %>
+
+        <div class="user_test_scores">
+          <h5><%= "#{user.name}'s Test Score:" %></h5>
+
+          <% @test.questions.each do |question| %>
+            <% correct_answer = question.correct_option %>
+            <% user_submission = Submit.find_by(user_id: user.id, test_id: @test.id, question_id: question.id) %>
+            <% if correct_answer.present? && user_submission.present? %>
+              <% if  user_submission.option_id == correct_answer.chomp.to_i %>
+                <% total_score += question.marks %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% @test.blanks.each do |blank| %>
+            <% correct_answer = blank.correct_blank %>
+            <% user_submission = Submit.find_by(user_id: user.id, test_id: @test.id, blank_id: blank.id) %>
+            <% if correct_answer.present? && user_submission.present? %>
+              <% if user_submission.entered_blank.downcase == correct_answer.downcase %>
+                <% total_score += blank.marks %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% @test.truefalse.each do |truefalse| %>
+            <% correct_answer = truefalse.state %>
+            <% user_submission = Submit.find_by(user_id: user.id, test_id: @test.id, truefalse_id: truefalse.id) %>
+            <% if correct_answer.present? && user_submission.present? %>
+              <% if  user_submission.entered_state == correct_answer %>
+                <% total_score += truefalse.marks %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% all_submits_of_user = Submit.where(test_id: @test.id , user_id: user.id)%>
+          <% total_enteries_of_test = @test.questions.count+@test.blanks.count+@test.truefalse.count%>
+          <% if all_submits_of_user.count == total_enteries_of_test %>
+            <p class="alert alert-success"><strong>Total Score:</strong> <%= total_score %> / <%= test_score %></p>
+            <%= link_to "View" , test_submits_path(@test , user_id: user.id) , class: "btn btn-primary"%>
+          <% else %>
+            <p class="alert alert-danger">Not Solved</p>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="no_user_added_yet">
+        No participants Yet!
+      </div>
+    <% end %>
+  </div>
+</div>

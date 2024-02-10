@@ -1,0 +1,37 @@
+<div class="outer_div_for_form_of_user_div">
+  <div class="upper_part_link_to_root_path">
+    <%= link_to "Back" , root_path%>
+  </div>
+  <div class="lower_outer_form_div_for_user">
+      <div class="lower_inner_form_div_for_users">
+        <h2>Log in</h2>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="inner_form_div">
+      
+      <div class="form-floating mb-3">
+        <%= f.email_field :email, class: "form-control", required: :true , id: "floatingInputEmail", autocomplete: "email" %>
+        <%= f.label :email, class: "form-label", for: "floatingInputEmail" %>
+      </div>
+      
+      <div class="form-floating mb-3">
+        <%= f.password_field :password, class: "form-control", required: :true , id: "floatingInputPasswordConfirmation", autocomplete: "new-password" %>
+        <%= f.label :password, class: "form-label", for: "floatingInputPasswordConfirmation" %>
+      </div>
+      <% if devise_mapping.rememberable? %>
+        <div class="field">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end %>
+      <div class="actions" style="text-align: center;">
+        <%= f.submit "Log In", class: "btn btn-success" %>
+      </div>
+    </div>
+  <% end %>
+
+    <%# <div style="margin-top: 1rem; font-size: 1.1rem;">Didn't have an Account? <%= render "devise/shared/links" %></div>
+    </div>
+  </div>
+</div>
+<%# <%= render "devise/shared/links" %> 
