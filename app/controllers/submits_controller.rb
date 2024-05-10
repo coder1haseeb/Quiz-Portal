@@ -6,6 +6,7 @@ class SubmitsController < ApplicationController
     user_id = params[:user_id]
     @user = User.find_by(id: user_id)
     @submits = @test.submits.where(test_id: @test.id, user_id: user_id)
+    @result = @test.results.find_by(user_id: @user.id)
   end
   
   def new
@@ -13,6 +14,7 @@ class SubmitsController < ApplicationController
     @questions = @test.questions.all
     @blanks = @test.blanks.all
     @truefalses = @test.truefalse.all
+    @result = @test.results.find_by(user_id: current_user.id)
     @submits = current_user.submits.where(test_id: @test.id)
     test_questions_count = @test.questions.count
     test_blanks_count = @test.blanks.count
@@ -26,11 +28,12 @@ class SubmitsController < ApplicationController
     submitted_truefalses = submit_truefalse_params[:truefalses] || {}
 
     if submitted_answers.present? || submitted_blanks.present? || submitted_truefalses.present?
-      submitted_answers.each do |question_id, option_id|
+      submitted_answers.each do |question_id, option_id, trail|
         @test.submits.create!(
           user_id: current_user.id,
           question_id: question_id,
-          option_id: option_id
+          option_id: option_id,
+          trail: trail
         )
       end
 
@@ -59,6 +62,14 @@ class SubmitsController < ApplicationController
   def show
   end
 
+  def edit
+    
+  end
+
+  def update
+
+  end
+
   private
 
   def set_test
@@ -75,6 +86,7 @@ class SubmitsController < ApplicationController
       :question_id,
       :option_id,
       { answers: {} },
+      :trail
     )
   end
   def submit_blank_params
@@ -83,6 +95,7 @@ class SubmitsController < ApplicationController
       { blanks: {} },
       :blank_id,
       :entered_blank,
+      :trail
     )
   end
   def submit_truefalse_params
@@ -90,7 +103,8 @@ class SubmitsController < ApplicationController
       :user_id,
       { truefalses: {} },
       :truefalse_id,
-      :entered_state
+      :entered_state, 
+      :trail
     )
   end
 end

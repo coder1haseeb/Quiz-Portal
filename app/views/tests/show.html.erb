@@ -80,6 +80,20 @@
           <% total_enteries_of_test = @test.questions.count+@test.blanks.count+@test.truefalse.count%>
           <% if all_submits_of_user.count == total_enteries_of_test %>
             <p class="alert alert-success"><strong>Total Score:</strong> <%= total_score %> / <%= test_score %></p>
+            <% user_result = user.results.find_by(test_id: @test)%>
+            <% if user_result.present? %>
+              <% if user_result.status?%>
+                <div style="font-weight : bold; font-size : 1.2rem;">
+                  Status : <span style="color : green;">Pass</span>
+                </div>
+              <% else %>
+                <div style="font-weight : bold; font-size : 1.2rem;">
+                  Status : <span style="color : red;">Fail</span>
+                </div>
+              <% end %>
+            <% else %>
+              <div style="color : red; font-size : 1.1rem; font-weight: bold;">Not graded Yet!</div>
+            <% end %>
             <%= link_to "View" , test_submits_path(@test , user_id: user.id) , class: "btn btn-primary"%>
           <% else %>
             <p class="alert alert-danger">Not Solved</p>

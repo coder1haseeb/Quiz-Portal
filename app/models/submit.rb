@@ -7,4 +7,5 @@ class Submit < ApplicationRecord
     belongs_to :blank, optional: true
     belongs_to :truefalse, optional: true
     # belongs_to :final
+    has_many :attempts
 end

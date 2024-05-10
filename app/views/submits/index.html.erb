@@ -36,19 +36,54 @@
   <% if result_extract.status == true %>
     <div style="margin : 1rem 2rem;">
       <div class="alert alert-success" style="font-size : 1.2rem; font-weight : bold;"><%= @user.name%> has passed the test successfully.</div>
-    </div>
-  <%else%>
-    <div style="margin : 1rem 2rem;">
-      <div class="alert alert-danger" style="font-size : 1.2rem; font-weight : bold;">
-        <%= @user.name%> have failed the test.
-        <%= form_with(model: Final.new, url: test_finals_path(@test, user_id: @user.id), method: :post) do |form|%>
+      <div style="display : flex; margin : 1rem 0 ; align-items : center;" class="alert alert-info">
+        Change the Status for the User
+        <%= form_with(model: @result , url: test_result_path(@test, id: result_extract.id), method: :patch) do |form|%>
           <div>
             <%= form.hidden_field :test_id , value: @test.id%>
             <%= form.hidden_field :user_id , value: @user.id%>
-            <%= form.submit "Allow Retake Test." , class: "btn btn-danger"%>
+            <%= form.hidden_field :status , value: true%>
+            <%= form.hidden_field :retake , value: false %>
+            <%= form.submit "Pass" , class: "btn btn-success" , style: "margin : 0 1rem;"%>
+          </div>
+        <% end %>
+        <%= form_with(model: @result , url: test_result_path(@test, id: result_extract.id), method: :patch) do |form|%>
+        <div>
+            <%= form.hidden_field :test_id , value: @test.id%>
+            <%= form.hidden_field :user_id , value: @user.id%>
+            <%= form.hidden_field :status , value: false%>
+            <%= form.hidden_field :retake , value: false%>
+            <%= form.submit "Fail" , class: "btn btn-danger"%>
           </div>
         <% end %>
       </div>
+    </div>
+  <%else%>
+    <div style="margin : 1rem 2rem;">
+      <div class="alert alert-danger" style="font-size : 1.2rem; font-weight : bold; display : flex;">
+        <%= @user.name%> have failed the test,
+      </div>
+        <div style="display : flex; margin : 1rem 0 ; align-items : center;" class="alert alert-info">
+          Change the Status for the User
+          <%= form_with(model: @result , url: test_result_path(@test, id: result_extract.id), method: :patch) do |form|%>
+            <div>
+              <%= form.hidden_field :test_id , value: @test.id%>
+              <%= form.hidden_field :user_id , value: @user.id%>
+              <%= form.hidden_field :status , value: true%>
+              <%= form.hidden_field :retake , value: false %>
+              <%= form.submit "Pass" , class: "btn btn-success" , style: "margin : 0 1rem;"%>
+            </div>
+          <% end %>
+          <%= form_with(model: @result , url: test_result_path(@test, id: result_extract.id), method: :patch) do |form|%>
+          <div>
+              <%= form.hidden_field :test_id , value: @test.id%>
+              <%= form.hidden_field :user_id , value: @user.id%>
+              <%= form.hidden_field :status , value: false%>
+              <%= form.hidden_field :retake , value: false%>
+              <%= form.submit "Fail" , class: "btn btn-danger"%>
+            </div>
+          <% end %>
+        </div>
     </div>
   <% end %>
 <% else %>
@@ -59,6 +94,7 @@
         <%= form.hidden_field :test_id , value: @test.id%>
         <%= form.hidden_field :user_id , value: @user.id%>
         <%= form.hidden_field :status , value: true%>
+        <%= form.hidden_field :retake , value: false %>
         <%= form.submit "Pass" , class: "btn btn-success" , style: "margin : 0 1rem;"%>
       </div>
     <% end %>
@@ -67,6 +103,7 @@
         <%= form.hidden_field :test_id , value: @test.id%>
         <%= form.hidden_field :user_id , value: @user.id%>
         <%= form.hidden_field :status , value: false%>
+        <%= form.hidden_field :retake , value: false%>
         <%= form.submit "Fail" , class: "btn btn-danger"%>
       </div>
     <% end %>

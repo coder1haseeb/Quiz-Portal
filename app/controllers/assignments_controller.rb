@@ -12,10 +12,10 @@ class AssignmentsController < ApplicationController
         @test = Test.find(params[:assignment][:test_id])
         if @assignment.save
             redirect_to new_assignment_path, notice: "User added Successfully."
-        else
+          else
             render "new"
         end
-    end
+      end
     
     def new
       @assignments = Assignment.all
@@ -67,5 +67,9 @@ class AssignmentsController < ApplicationController
     #   # Assuming test_id is passed correctly in params (e.g., params[:test_id])
     #   @test = Test.find(params[:test_id])
     # end
+
+    def submit_params
+      params.require(:submit).permit(:user_id , :test_id)
+    end
   end
   

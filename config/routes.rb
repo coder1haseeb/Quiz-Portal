@@ -1,6 +1,8 @@
 # config/routes.rb
 
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   resources :tests do
     resources :finals
     resources :results
@@ -23,7 +25,9 @@ Rails.application.routes.draw do
   end
 
   resources :tests do
-    resources :submits
+    resources :submits do
+      resources :attempts
+    end
   end
 
   namespace :api do

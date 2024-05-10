@@ -12,4 +12,5 @@ class User < ApplicationRecord
   has_many :tests
   has_many :finals
   has_many :results
+  has_many :attempts
 end

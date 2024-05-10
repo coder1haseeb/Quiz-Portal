@@ -34,7 +34,7 @@ gem "jbuilder"
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 gem 'active_model_serializers', '~> 0.10.14'
-
+gem 'activeadmin', '~> 3.2'
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
@@ -46,7 +46,10 @@ gem "bootsnap", require: false
 
 # Use Sass to process CSS
 # gem "sassc-rails"
-
+gem 'sassc', '2.4.0'
+gem 'zeitwerk', '2.6.12'
+gem 'responders', '3.1.1'
+gem 'ransack', '~> 4.1', '>= 4.1.1'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
